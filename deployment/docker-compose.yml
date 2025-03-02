@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ../backend
+      dockerfile: ../deployment/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - MILVUS_HOST=milvus
+    depends_on:
+      - milvus
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: ../deployment/Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+  milvus:
+    image: milvusdb/milvus:latest
+    ports:
+      - "19530:19530"
+      - "19121:19121"
+    environment:
+      - MILVUS_HOST=milvus
+      - MILVUS_PORT=19530
+    volumes:
+      - milvus_data:/var/lib/milvus
+
+volumes:
+  milvus_data: 

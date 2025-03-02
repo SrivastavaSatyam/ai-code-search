@@ -1,0 +1,53 @@
+📦 ai-code-search
+ ├── 📂 backend                     # Core backend logic (API, model, search engine)
+ │   ├── 📂 models                  # Model management (loading, fine-tuning, inference)
+ │   ├── 📂 search                  # Search logic (FAISS/Milvus, embeddings)
+ │   ├── 📂 api                      # FastAPI-based API
+ │   ├── 📂 utils                    # Helper functions, configs
+ │   ├── main.py                     # API entry point
+ │   ├── requirements.txt             # Backend dependencies
+ │   └── config.py                    # Configuration settings
+ │
+ ├── 📂 frontend                    # Web UI for search and display (Next.js)
+ │   ├── 📂 components               # Reusable UI components
+ │   ├── 📂 pages                    # Next.js pages
+ │   ├── 📂 styles                   # Global & component styles
+ │   ├── 📂 utils                    # Helper functions
+ │   ├── 📂 hooks                    # Custom React hooks
+ │   ├── 📂 context                  # Global state management
+ │   ├── next.config.js              # Next.js configuration
+ │   ├── package.json                # Frontend dependencies
+ │   ├── tailwind.config.js          # Tailwind CSS setup
+ │   ├── postcss.config.js           # PostCSS configuration
+ │   ├── tsconfig.json               # TypeScript support (if needed)
+ │   └── public/                     # Static assets (icons, images)
+ │
+ ├── 📂 data                        # Dataset for fine-tuning (if needed)
+ │   ├── 📂 raw                      # Raw code snippets
+ │   ├── 📂 processed                # Cleaned & tokenized code
+ │   ├── preprocess.py               # Data processing script
+ │   └── dataset.jsonl               # Final dataset
+ │
+ ├── 📂 deployment                  # Production setup (Docker, CI/CD, cloud)
+ │   ├── Dockerfile                  # Containerization for backend
+ │   ├── docker-compose.yml           # Multi-container setup
+ │   ├── 📂 k8s                      # Kubernetes manifests
+ │   ├── 📂 cloud                    # Cloud deployment scripts (AWS, GCP)
+ │   └── start.sh                     # Deployment script
+ │
+ ├── 📂 tests                       # Unit & integration tests
+ │   ├── 📂 backend                  # Backend tests
+ │   ├── 📂 frontend                 # Frontend tests (Jest/Cypress)
+ │   ├── 📂 performance              # Performance benchmarks
+ │   ├── test_api.py                 # API test cases
+ │   ├── test_search.py              # Search function tests
+ │   ├── test_ui.js                  # Frontend tests
+ │   └── pytest.ini                   # Pytest configuration
+ │
+ ├── .env                           # Environment variables
+ ├── .gitignore                     # Ignore unnecessary files
+ ├── README.md                      # Documentation
+ ├── LICENSE                        # Open-source licensing (if applicable)
+ ├── CONTRIBUTING.md                # Guidelines for contributors
+ ├── CODE_OF_CONDUCT.md              # Community guidelines
+ └── setup.py                        # Setup script (if packaging as a module)
