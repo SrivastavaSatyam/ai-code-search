@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
+import traceback
 from config import settings
 from search.engine import SearchEngine
 
@@ -52,14 +53,21 @@ async def search_code(query: SearchQuery):
             ]
         }
     except Exception as e:
+        print(f"Error in search: {str(e)}")
+        print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/add-code")
 async def add_code(snippet: CodeSnippet):
     try:
+        if not snippet.code or len(snippet.code.strip()) == 0:
+            raise ValueError("Code snippet cannot be empty")
+            
         search_engine.add_code([snippet.code])
         return {"message": "Code snippet added successfully"}
     except Exception as e:
+        print(f"Error in add-code: {str(e)}")
+        print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/save-index")
@@ -68,6 +76,8 @@ async def save_index():
         search_engine.save_index()
         return {"message": "Index saved successfully"}
     except Exception as e:
+        print(f"Error in save-index: {str(e)}")
+        print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
