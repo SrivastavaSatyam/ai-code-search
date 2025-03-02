@@ -78,6 +78,8 @@ class SearchEngine:
         }
         np.save(path, save_data, allow_pickle=True)
         print(f"Index saved to {path}")
+
+        return True
     
     def load_index(self, path: str = None):
         if path is None:
@@ -87,3 +89,8 @@ class SearchEngine:
         loaded_data = np.load(path, allow_pickle=True).item()
         self.embeddings = loaded_data['embeddings']
         self.code_snippets = loaded_data['code_snippets'].tolist() 
+        return {
+            "index_path": path,
+            "snippets_count": len(self.code_snippets),
+            "embeddings_shape": self.embeddings.shape if self.embeddings is not None else None
+        } 

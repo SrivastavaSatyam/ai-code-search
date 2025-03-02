@@ -1,4 +1,4 @@
-from transformers import AutoTokenizer, AutoModel
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 import torch
 from typing import List, Union
 import numpy as np
@@ -10,7 +10,7 @@ class CodeEmbedder:
         print(settings.MODEL_NAME, type(settings.MODEL_NAME))
 
         self.tokenizer = AutoTokenizer.from_pretrained(str(settings.MODEL_NAME))
-        self.model = AutoModel.from_pretrained(settings.MODEL_NAME).to(self.device)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(settings.MODEL_NAME).to(self.device)
         self.model.eval()
 
     def get_embeddings(self, code_snippets: Union[str, List[str]]) -> np.ndarray:
@@ -24,9 +24,10 @@ class CodeEmbedder:
             max_length=settings.MAX_SEQUENCE_LENGTH,
             return_tensors="pt"
         ).to(self.device)
-        
+        decoder_input_ids = torch.tensor([[self.tokenizer.pad_token_id]], device=self.device)
+
         with torch.no_grad():
-            outputs = self.model(**inputs)
-            embeddings = outputs.last_hidden_state.mean(dim=1)
+            outputs = self.model(**inputs,decoder_input_ids=decoder_input_ids)
+            embeddings = outputs.encoder_last_hidden_state.mean(dim=1)
             
         return embeddings.cpu().numpy() 

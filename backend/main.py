@@ -62,9 +62,24 @@ async def add_code(snippet: CodeSnippet):
     try:
         if not snippet.code or len(snippet.code.strip()) == 0:
             raise ValueError("Code snippet cannot be empty")
+        
+        # Add more detailed logging    
+        print(f"Adding code snippet: {snippet.code[:100]}...")
+        
+        # Try to add the code with better error handling
+        try:
+            search_engine.add_code([snippet.code])
+            return {"message": "Code snippet added successfully"}
+        except Exception as inner_e:
+            # Log the specific error from the search engine
+            print(f"Search engine error: {str(inner_e)}")
+            print(traceback.format_exc())
             
-        search_engine.add_code([snippet.code])
-        return {"message": "Code snippet added successfully"}
+            # Return a more specific error message
+            raise HTTPException(
+                status_code=500, 
+                detail=f"Error in search engine: {str(inner_e)}"
+            )
     except Exception as e:
         print(f"Error in add-code: {str(e)}")
         print(traceback.format_exc())
@@ -79,7 +94,17 @@ async def save_index():
         print(f"Error in save-index: {str(e)}")
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
-
+    
+@app.get("/load-index")
+async def load_index():
+    try:
+        search_engine.load_index()
+        return {"message": "Index Loaded Successfully"}
+    except Exception as e:
+        print(f"Error while Loading Index {str(e)}")
+        print(traceback.format_exc())
+        raise HTTPException(status_code=500, detail=str(e))
+    
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host=settings.API_HOST, port=settings.API_PORT)

@@ -6,16 +6,18 @@ echo "Testing API root endpoint..."
 curl -X GET $API_URL/
 
 echo -e "\n\nAdding code snippets..."
-curl -X POST $API_URL/add-code \
+curl -v -X POST $API_URL/add-code \
   -H "Content-Type: application/json" \
   -d '{
     "code": "def fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)"
   }'
 
+echo -e "\n\nTrying with additional parameters..."
 curl -X POST $API_URL/add-code \
   -H "Content-Type: application/json" \
   -d '{
-    "code": "function quickSort(arr) {\n  if (arr.length <= 1) return arr;\n  const pivot = arr[0];\n  const left = arr.slice(1).filter(x => x < pivot);\n  const right = arr.slice(1).filter(x => x >= pivot);\n  return [...quickSort(left), pivot, ...quickSort(right)];\n}"
+    "code": "def fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)",
+    "language": "python"
   }'
 
 echo -e "\n\nSearching for code..."
