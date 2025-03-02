@@ -2,13 +2,14 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
-from .search.engine import SearchEngine
-from .config import settings
+from config import settings
+from search.engine import SearchEngine
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
+
 
 # Configure CORS
 app.add_middleware(
@@ -71,4 +72,4 @@ async def save_index():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host=settings.API_HOST, port=settings.API_PORT) 
+    uvicorn.run(app, host=settings.API_HOST, port=settings.API_PORT)

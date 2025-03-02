@@ -1,14 +1,16 @@
-from transformers import T5Tokenizer, T5EncoderModel
+from transformers import AutoTokenizer, AutoModel
 import torch
 from typing import List, Union
 import numpy as np
-from ..config import settings
+from config import settings
 
 class CodeEmbedder:
     def __init__(self):
         self.device = torch.device(settings.DEVICE)
-        self.tokenizer = T5Tokenizer.from_pretrained(settings.MODEL_NAME)
-        self.model = T5EncoderModel.from_pretrained(settings.MODEL_NAME).to(self.device)
+        print(settings.MODEL_NAME, type(settings.MODEL_NAME))
+
+        self.tokenizer = AutoTokenizer.from_pretrained(str(settings.MODEL_NAME))
+        self.model = AutoModel.from_pretrained(settings.MODEL_NAME).to(self.device)
         self.model.eval()
 
     def get_embeddings(self, code_snippets: Union[str, List[str]]) -> np.ndarray:

@@ -1,7 +1,7 @@
 import numpy as np
 from typing import List, Tuple
-from ..models.code_embedder import CodeEmbedder
-from ..config import settings
+from models.code_embedder import CodeEmbedder
+from config import settings
 
 class SearchEngine:
     def __init__(self):

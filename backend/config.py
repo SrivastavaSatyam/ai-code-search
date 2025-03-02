@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     MODEL_NAME: str = "Salesforce/codet5p-220m"  # Base CodeT5+ model
     MODEL_EMBEDDING_SIZE: int = 768
     MAX_SEQUENCE_LENGTH: int = 512
-    DEVICE: str = "cuda"  # or "cpu" based on availability
+    DEVICE: str = "cpu"  # or "cpu" based on availability
     
     # Search settings
     FAISS_INDEX_PATH: Path = Path("indexes/codesearch.faiss")
